@@ -12,12 +12,18 @@
         @import url('https://fonts.googleapis.com/css2?family=Delius&display=swap');
 
         :root{
-            --cor1:#1E2637;
+            --cor1:#1F3138;
             --cor2:#FF4E6D;
-            --cor3:#E6F7C6;
+            --cor3:#B8B58A;
             --fonte1: "Montez", cursive;
             --fonte2: "Delius", cursive;
         }
+
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+
         body{
             background-color: var(--cor1);
         }
@@ -29,13 +35,17 @@
             text-decoration: underline;
             font-family: "Montez", cursive;
             text-shadow: 1px 5px 5px rgba(0, 0, 0, 0.308);
+            padding-top: 20px;
+            padding-bottom: 10px;
         }
 
-        .contagem{
+        h2{
             color: var(--cor3);
             font-family: var(--fonte2);
             text-align: center;
-            
+            padding-bottom: 15px;
+            text-shadow: 1px 3px 5px black;
+
         }
 
         #contador {
@@ -44,7 +54,8 @@
             font-weight: bold; /* Negrito */
             color: var(--cor3); /* Cor azul */
             text-align: center; /* Centraliza o texto */
-            margin-top: 20px; /* Espaço acima do contador */
+            line-height: 1.2;
+            padding-bottom: 30px;
         }
 
         .carrossel {
@@ -55,6 +66,7 @@
             margin: auto;
             border-radius: 10px;
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
         }
 
         .imagens {
@@ -91,6 +103,26 @@
 
         .anterior { left: 10px; }
         .proximo { right: 10px; }
+
+        hr{
+            border: none;
+            height: 3px;
+            background-color: var(--cor2);
+            width: 75%;
+            margin: auto;
+            box-shadow: 1px 6px 12px rgba(0, 0, 0, 0.322);
+        }
+
+        p{
+            font-family: var(--fonte2);
+            color: var(--cor3);
+            font-size: 1.2em;
+            text-align: justify;
+            width: 80%;
+            margin: auto;
+            text-indent: 15px;
+            padding-top: 20px;
+        }
     </style>
 
 </head>
@@ -116,6 +148,7 @@
         <img src="imagens/IMG_012.jpg">
         <img src="imagens/IMG_013.jpg">
         <img src="imagens/IMG_014.jpg">
+        <img src="imagens/IMG_015.jpg">
     </div>
     
     <button class="proximo" onclick="mudarImagem(1)">&#10095;</button>
@@ -167,12 +200,17 @@
          
              // Exibir no HTML
              document.getElementById("contador").innerHTML = 
-                 `${anos} anos e ${meses} meses <br> ${horas} horas e ${minutos} minutos`;
+                 `${anos} anos e ${meses} meses <br> ou <br> ${horas} horas e ${minutos} minutos`;
         }
 
         // Atualiza o contador a cada segundo
         setInterval(atualizarContador, 1000);
         atualizarContador();
     </script>
+
+    <hr>
+
+    <p>
+        Sempre teremos esse espacinho para lembrar de quanto tempo estamos juntos, das coisas que fizemos e dos lugares que já visitamos. Afinal, eu nem vejo o tempo passar quando estamos juntos.    </p>
 </body>
 </html>
