@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="imagens/favicon.ico" type="imagens">
+    <title>Nosso Tempo</title>
+
+    <style>
+
+        @import url('https://fonts.googleapis.com/css2?family=Montez&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Delius&display=swap');
+
+        :root{
+            --cor1:#1E2637;
+            --cor2:#FF4E6D;
+            --cor3:#E6F7C6;
+            --fonte1: "Montez", cursive;
+            --fonte2: "Delius", cursive;
+        }
+        body{
+            background-color: var(--cor1);
+        }
+
+        h1{
+            font-size: 3em;
+            color: var(--cor2);
+            text-align: center;
+            text-decoration: underline;
+            font-family: "Montez", cursive;
+            text-shadow: 1px 5px 5px rgba(0, 0, 0, 0.308);
+        }
+
+        .contagem{
+            color: var(--cor3);
+            font-family: var(--fonte2);
+            text-align: center;
+            
+        }
+
+        #contador {
+            font-family:var(--fonte2); /* Tipo da fonte */
+            font-size: 1.3em; /* Tamanho da fonte */
+            font-weight: bold; /* Negrito */
+            color: var(--cor3); /* Cor azul */
+            text-align: center; /* Centraliza o texto */
+            margin-top: 20px; /* Espaço acima do contador */
+        }
+
+        .carrossel {
+            width: 90vw; /* Largura do carrossel */
+            height: 30vh; /* Altura do carrossel */
+            overflow: hidden; /* Esconde as partes que saem da área */
+            position: relative;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .imagens {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .imagens img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Mantém a proporção da imagem */
+            display: none; /* Esconde todas as imagens */
+        }
+
+        .imagens img.ativo {
+            display: block; /* Apenas a imagem ativa será visível */
+        }
+
+        /* Botões de navegação */
+        .anterior, .proximo {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.205);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 5px;
+        }
+
+        .anterior { left: 10px; }
+        .proximo { right: 10px; }
+    </style>
+
+</head>
+<body>
+    
+<h1>Nosso Tempo Juntos</h1>
+
+<div class="carrossel">
+    <button class="anterior" onclick="mudarImagem(-1)">&#10094;</button>
+    
+    <div class="imagens">
+        <img src="imagens/IMG_001.jpg" class="ativo">
+        <img src="imagens/IMG_002.jpg">
+        <img src="imagens/IMG_003.jpg">
+        <img src="imagens/IMG_004.jpg">
+        <img src="imagens/IMG_005.jpg">
+        <img src="imagens/IMG_006.jpg">
+        <img src="imagens/IMG_007.jpg">
+        <img src="imagens/IMG_008.jpg">
+        <img src="imagens/IMG_009.jpg">
+        <img src="imagens/IMG_010.jpg">
+        <img src="imagens/IMG_011.jpg">
+        <img src="imagens/IMG_012.jpg">
+        <img src="imagens/IMG_013.jpg">
+        <img src="imagens/IMG_014.jpg">
+    </div>
+    
+    <button class="proximo" onclick="mudarImagem(1)">&#10095;</button>
+</div>
+
+<script>
+    let indiceAtual = 0;
+    let imagens = document.querySelectorAll(".imagens img");
+
+    function mudarImagem(direcao) {
+        imagens[indiceAtual].classList.remove("ativo"); // Esconde a imagem atual
+        indiceAtual += direcao;
+
+        if (indiceAtual < 0) {
+            indiceAtual = imagens.length - 1;
+        } else if (indiceAtual >= imagens.length) {
+            indiceAtual = 0;
+        }
+
+        imagens[indiceAtual].classList.add("ativo"); // Mostra a nova imagem
+    }
+
+    // Troca automática das imagens a cada 3 segundos
+    setInterval(() => mudarImagem(1), 3000);
+</script>
+
+
+<h2 class="contagem">Juntos há</h2>
+    <div id="contador">Carregando...</div>
+    <script>
+        function atualizarContador() {
+            let dataInicio = new Date(2020, 11, 10, 15, 0, 0); // 1º de março de 2024, 00:00:00
+            let agora = new Date();
+    
+             // Diferença total em milissegundos
+             let diferenca = agora - dataInicio;
+
+             // Cálculo de anos e meses
+             let anos = agora.getFullYear() - dataInicio.getFullYear();
+             let meses = agora.getMonth() - dataInicio.getMonth();
+             if (meses < 0) { // Se o mês atual for menor que o mês inicial, ajustar
+                 anos--;
+                 meses += 12;
+             }
+         
+             // Cálculo de horas e minutos
+             let horas = Math.floor(diferenca / (1000 * 60 * 60));
+             let minutos = Math.floor((diferenca % (1000 * 60 * 60)) / (1000 * 60));
+         
+             // Exibir no HTML
+             document.getElementById("contador").innerHTML = 
+                 `${anos} anos e ${meses} meses <br> ${horas} horas e ${minutos} minutos`;
+        }
+
+        // Atualiza o contador a cada segundo
+        setInterval(atualizarContador, 1000);
+        atualizarContador();
+    </script>
+</body>
+</html>
