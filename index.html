@@ -122,6 +122,7 @@
             margin: auto;
             text-indent: 15px;
             padding-top: 20px;
+            padding-bottom: 30px;
         }
 
         iframe{
@@ -130,6 +131,90 @@
             margin: auto;
             padding: 20px;
             
+        }
+
+        audio{
+            display: block;
+            margin:auto ;
+            padding-top: 10px;
+        }
+
+
+
+        /* Container do Player */
+        .audio-container {
+            background: #2A3F44;
+            padding: 10px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+            margin: auto;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Botões */
+        .audio-button {
+            background-color: var(--cor2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        .audio-button:hover {
+            background-color: var(--cor3);
+            color: black;
+        }
+
+        .botao-container {
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            gap: 10px; /* Espaçamento entre os botões */
+            padding-top: 10px; /* Adiciona um pequeno espaço acima */
+            padding-bottom: 10px;
+        }        
+
+        /* Barra de Progresso */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #555;
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: var(--cor2);
+            border-radius: 5px;
+        }
+
+        /* Controle de Volume */
+        .volume-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .volume-slider {
+            width: 80%;
+            accent-color: var(--cor2);
+
+        }
+
+        #tempo{
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
         }
     </style>
 
@@ -231,6 +316,95 @@
         Sempre teremos esse espacinho para lembrar de quanto tempo estamos juntos, das coisas que fizemos e dos lugares que já visitamos. Afinal, eu nem vejo o tempo passar quando estamos juntos.
     </p>
 
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/I-444wpqGXA?si=l0v4tfKdXRzEJHyn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    <!--<audio src="media/Lagum - Meu Esquema.mp4" controls autoplay></audio> -->
+
+    <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/I-444wpqGXA?si=l0v4tfKdXRzEJHyn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+
+    <div class="audio-container">
+        <div class="botao-container">
+            <button class="audio-button" onclick="tocarOuPausar()">▶ Play</button>
+            <button class="audio-button" onclick="pararAudio()">⏹ Stop</button>
+        </div>
+
+        <!-- Barra de Progresso -->
+        <div class="progress-bar" onclick="mudarTempo(event)">
+            <div class="progress"></div>
+        </div>
+
+        <!-- Tempo Atual -->
+        <p id="tempo">00:00 / 00:00</p>
+
+        <!-- Controle de Volume -->
+        <div class="volume-container">
+            🔊 <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1" oninput="ajustarVolume(this.value)">
+        </div>
+    </div>
+
+    <!-- Player de Áudio Oculto -->
+    <audio id="meuAudio" src="media/Lagum - Meu Esquema.mp4"></audio>
+
+    <script>
+        let audio = document.getElementById("meuAudio");
+        let botaoPlayPause = document.querySelector(".audio-button");
+        let progressBar = document.querySelector(".progress");
+        let progressContainer = document.querySelector(".progress-bar");
+        let tempoAtual = document.getElementById("tempo");
+
+        // Alterna entre tocar e pausar
+        function tocarOuPausar() {
+            if (audio.paused) {
+                audio.play();
+                botaoPlayPause.textContent = "⏸ Pause";
+            } else {
+                audio.pause();
+                botaoPlayPause.textContent = "▶ Play";
+            }
+        }
+
+        // Para o áudio e reinicia
+        function pararAudio() {
+            audio.pause();
+            audio.currentTime = 0;
+            botaoPlayPause.textContent = "▶ Play";
+        }
+
+        // Atualiza a barra de progresso
+        audio.ontimeupdate = function () {
+            let percentual = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = percentual + "%";
+            atualizarTempo();
+        };
+
+        // Muda o tempo do áudio ao clicar na barra de progresso
+        function mudarTempo(event) {
+            let larguraTotal = progressContainer.clientWidth;
+            let cliqueX = event.offsetX;
+            let novaPosicao = (cliqueX / larguraTotal) * audio.duration;
+            audio.currentTime = novaPosicao;
+        }
+
+        // Atualiza o tempo na tela
+        function atualizarTempo() {
+            let minutosAtual = Math.floor(audio.currentTime / 60);
+            let segundosAtual = Math.floor(audio.currentTime % 60);
+            let minutosTotal = Math.floor(audio.duration / 60);
+            let segundosTotal = Math.floor(audio.duration % 60);
+
+            if (isNaN(minutosTotal) || isNaN(segundosTotal)) {
+                minutosTotal = 0;
+                segundosTotal = 0;
+            }
+
+            tempoAtual.textContent = 
+                `${String(minutosAtual).padStart(2, "0")}:${String(segundosAtual).padStart(2, "0")} / 
+                 ${String(minutosTotal).padStart(2, "0")}:${String(segundosTotal).padStart(2, "0")}`;
+        }
+
+        // Ajusta o volume do áudio
+        function ajustarVolume(valor) {
+            audio.volume = valor;
+        }
+    </script>
+
 </body>
 </html>
