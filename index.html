@@ -216,6 +216,21 @@
             justify-content: center; /* Centraliza horizontalmente */
             align-items: center; /* Centraliza verticalmente */
         }
+
+        .volume-slider{
+            height: 3px;
+        }
+
+        .progress-bar{
+            height: 3px;
+        }
+
+        .musica-nome{
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            text-align: center; /* Garante que o texto fique centralizado */
+        }
     </style>
 
 </head>
@@ -321,6 +336,8 @@
     <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/I-444wpqGXA?si=l0v4tfKdXRzEJHyn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
 
     <div class="audio-container">
+        <p class="musica-nome">Meu esquema - Lagum</p>
+        
         <div class="botao-container">
             <button class="audio-button" onclick="tocarOuPausar()">▶ Play</button>
             <button class="audio-button" onclick="pararAudio()">⏹ Stop</button>
